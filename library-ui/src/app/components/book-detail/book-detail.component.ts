@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/model/book';
+import { LoginService } from 'src/app/services/login.service';
 import { UserLibraryService } from 'src/app/services/user-library.service';
 
 @Component({
@@ -15,18 +16,24 @@ export class BookDetailComponent {
     title: "",
     author: "",
     isbnCode: "",
-    insertDate: new Date(),
-    deleteDate: new Date(),
+    insertDate: "",
+    deleteDate: null,
     plot: "",
     totalReadings: 0,
-    userEmail: ""
+    user_email: ""
   };
 
   constructor(private router: Router,
+              private loginService: LoginService,
               private activatedRoute: ActivatedRoute,
               private libraryService: UserLibraryService) { }
 
   ngOnInit() {
+
+    if(!this.loginService.isLoggedIn()){
+      this.router.navigate(['/']);
+    }
+    
     // Get id from url
     this.book.id = this.activatedRoute.snapshot.params['id'];
 

@@ -12,8 +12,8 @@
                      <div class="input-group mb-4">
                         <select [(ngModel)]="selectedUser" [disabled]="users!.length === 0" class="form-select">
                            <option *ngIf="users!.length === 0" default>No users here</option>
-                           <option *ngIf="users!.length > 0" [ngValue]="-1" default>Choose user</option>
-                           <option *ngFor="let user of users" [ngValue]="user.emailId">
+                           <option *ngIf="users!.length > 0" [value]="-1" default>Choose user</option>
+                           <option *ngFor="let user of users" [value]="user.emailId">
                               {{ user.emailId }}
                            </option>
                         </select>

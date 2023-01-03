@@ -1,0 +1,82 @@
+<div class="container py-5">
+   <div class="card bg-dark text-white" style="border-radius: 1rem;">
+      <div class="card-header fw-bold text-center text-uppercase">
+         Add Book
+      </div>
+      
+      <div class="card-body row d-flex justify-content-center align-items-center">
+         <div class="p-5 text-center align-items-center col-12 col-md-8 col-lg-6 col-xl-5">
+            <form #bookForm="ngForm" (ngSubmit)="onAddBook(bookForm)">
+               <div class="form-group form-floating mb-3">
+                  <input 
+                     type="text" 
+                     class="form-control" 
+                     name="title"
+                     #bookTitle="ngModel" 
+                     [ngClass]="{'is-invalid': bookTitle.errors && bookTitle.touched}" 
+                     [(ngModel)]="book.title" 
+                     minlength="2" 
+                     id="floatingBookTitle" 
+                     placeholder="Book Title"
+                     required>
+                  <div [hidden]="!bookTitle.errors?.['minlength']" class="invalid-feedback">
+                     Must be at least 2 characters
+                  </div>
+                  <label for="floatingBookTitle" class="text-dark">Book Title</label>
+               </div>
+               <div class="form-group form-floating mb-3">
+                  <input 
+                     type="text" 
+                     name="author"
+                     [(ngModel)]="book.author" 
+                     #bookAuthor="ngModel" 
+                     class="form-control text-dark" 
+                     minlength="2" 
+                     required
+                     [ngClass]="{'is-invalid': bookAuthor.errors && bookAuthor.touched}" id="floatingAuthorName"
+                     placeholder="Author">
+                     <div [hidden]="!bookAuthor.errors?.['minlength']" class="invalid-feedback">
+                        Must be at least 2 characters
+                     </div>
+                  <label for="floatingAuthorName" class="text-dark">Author</label>
+               </div>
+               <div class="form-group form-floating mb-3">
+                  <input 
+                     type="text" 
+                     name="plot"
+                     [(ngModel)]="book.plot" 
+                     #bookPlot="ngModel" 
+                     class="form-control text-dark" 
+                     minlength="2" 
+                     required
+                     [ngClass]="{'is-invalid': bookPlot.errors && bookPlot.touched}" id="floatingPlot"
+                     placeholder="Plot">
+                     <div [hidden]="!bookPlot.errors?.['minlength']" class="invalid-feedback">
+                        Must be at least 2 characters
+                     </div>
+                  <label for="floatingPlot" class="text-dark">Plot</label>
+               </div>
+               <div class="form-group form-floating mb-3">
+                  <input 
+                     type="text" 
+                     name="isbnCode"
+                     [(ngModel)]="book.isbnCode" 
+                     #bookISBN="ngModel" 
+                     class="form-control text-dark" 
+                     minlength="5" 
+                     required
+                     [ngClass]="{'is-invalid': bookISBN.errors && bookISBN.touched}" id="floatingISBN"
+                     placeholder="ISBN">
+                     <div [hidden]="!bookISBN.errors?.['minlength']" class="invalid-feedback">
+                        Must be at least 5 characters
+                     </div>
+                  <label for="floatingISBN" class="text-dark">ISBN</label>
+               </div>
+
+               <input type="submit" value="Add Book" class="btn btn-outline-primary btn-lg mt-3 px-5">
+            </form>
+         </div>
+      </div>
+   </div>
+
+</div>

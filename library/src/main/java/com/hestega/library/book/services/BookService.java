@@ -12,4 +12,6 @@ public interface BookService {
     List<SimpleBook> getBooksByUserEmail(String userEmail);
 
     Book getBook(Long id) throws NoSuchElementException;
+
+    Book addBook(Book book);
 }

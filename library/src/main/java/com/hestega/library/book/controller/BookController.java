@@ -35,4 +35,9 @@ public class BookController {
     public Book getBookById(@PathVariable("id") Long id) {
         return bookService.getBook(id);
     }
+
+    @PostMapping("/")
+    public Book addBook(@RequestBody Book book){
+        return bookService.addBook(book);
+    }
 }

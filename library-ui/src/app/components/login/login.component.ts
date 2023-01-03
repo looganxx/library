@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { LoginService } from 'src/app/services/login.service';
@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit{
 
   users: User[];
   selectedUser: String;
+
+  @Output() loggedUser: EventEmitter<User> = new EventEmitter();
 
   constructor(private loginService: LoginService,
               private router: Router) {
@@ -31,6 +33,11 @@ export class LoginComponent implements OnInit{
       alert("You must choose a user");
       return;
     }
-    this.router.navigate(['/userLibrary/'+ this.selectedUser]);
+    this.loginService.login(this.users.find(
+      u => {
+        return u.emailId === this.selectedUser;
+      }
+    ) as User);
+    this.router.navigate(['/userLibrary/']);
   }
 }

@@ -19,5 +19,5 @@ public class Book {
     private Date deleteDate;
     private String plot;
     private Integer totalReadings;
-    private String userEmail;
+    private String user_email;
 }

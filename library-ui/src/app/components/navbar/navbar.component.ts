@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/model/user';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,13 +11,29 @@ import { Router } from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
-  loggedInUser: string;
-  showRegister: boolean;
+  loggedInUser: User = {
+    emailId: "",
+    firstName: "",
+    lastName: "",
+  };
 
-  constructor() { }
+  constructor(private loginService: LoginService,
+              private router: Router) { }
 
   ngOnInit(): void {
-    
+    this.loginService.getLoggedUserSubject().subscribe({
+      next: (user: User) => {
+        this.loggedInUser = user;
+        this.isLoggedIn = true;
+      },
+      error: (error: any) => {
+        this.isLoggedIn = false;
+      }
+    })
   }
 
+  onLogoutClick(){
+    this.loginService.logout();
+    this.router.navigate(['/']);
+  }
 }

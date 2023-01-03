@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { UserLibraryComponent } from './components/user-library/user-library.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BookDetailComponent } from './components/book-detail/book-detail.component';
+import { AddBookComponent } from './components/add-book/add-book.component';
 
 
 
@@ -22,7 +23,8 @@ import { BookDetailComponent } from './components/book-detail/book-detail.compon
     LoginComponent,
     UserLibraryComponent,
     NotFoundComponent,
-    BookDetailComponent
+    BookDetailComponent,
+    AddBookComponent
   ],
   imports: [
     BrowserModule,

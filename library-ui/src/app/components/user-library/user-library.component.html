@@ -1,5 +1,9 @@
-<div class="card bg-dark align-items-center text-white mt-4 mx-auto" style="border-radius: 1rem;width: 18rem;">
+<!-- <div class="card bg-dark align-items-center text-white mt-4 mx-auto" style="border-radius: 1rem;width: 18rem;">
    <span>{{ userEmail }}</span>
+</div> -->
+
+<div class="d-flex flex-row-reverse bd-highlight mt-3">
+   <button routerLink="/addBook" type="button" class="btn btn-primary">Add Book</button>
 </div>
 
 <div *ngIf="isLoad === true; else loadingTemplate">
