@@ -1,11 +1,26 @@
-<div class="justify-content-between">
-   <button type="button" onclick="history.go(-1);" class="btn btn-dark mt-3">
-      <i class="fa fa-solid fa-arrow-left"></i>
-      Books
-   </button>
-   <div class="card bg-dark align-items-center align-middle text-white mt-4 mx-auto" style="border-radius: 1rem; width: 18rem;">
-      <span>Book Details</span>
+<div class="d-flex gap-2 bd-highlight mt-3">
+   <div class="flex-grow-1 bd-highlight">
+      <button type="button" routerLink="/userLibrary" class="btn btn-secondary">
+         <i class="fa fa-solid fa-arrow-left"></i>
+         Books
+      </button>
    </div>
+   <div *ngIf="book.deleteDate === null" class="bd-highlight">
+      <button type="button" (click)="onModify()" class="btn btn-warning">
+         <i class="fa fa-duotone fa-pencil"></i>
+         Modify
+      </button>
+   </div>
+   <div *ngIf="book.deleteDate === null" class="bd-highlight">
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+         <i class="fa fa-solid fa-trash"></i>
+         Delete
+      </button>
+   </div>
+</div>
+
+<div class="card bg-dark align-items-center align-middle text-white mt-4 mx-auto" style="border-radius: 1rem; width: 18rem;">
+   <span>Book Details</span>
 </div>
 
 <div class="align-center">
@@ -29,7 +44,25 @@
          </tr>
          <tr>
             <th>Total Readings</th>
-            <td>{{ book.totalReadings }}</td>
+            <td>
+               <div class="d-flex gap-2 bd-highlight">
+                  <div class="flex-grow-1 bd-highlight">
+                     {{ book.totalReadings }}
+                  </div>
+                  <div *ngIf="book.deleteDate === null"  class="bd-highlight">
+                     <button [disabled]="book.totalReadings == 0" class="btn btn-sm btn-primary" style="padding: 2px 3px;" (click)="onDecrease()"><i class="fa fa-solid fa-minus"></i></button>
+                  </div>
+                  <div *ngIf="book.deleteDate === null" class="bd-highlight">
+                     <button class="btn btn-sm btn-primary" style="padding: 2px 3px;" (click)="onIncrease()"><i class="fa fa-solid fa-plus"></i></button>
+                  </div>
+               </div>
+            </td>
+         </tr>
+         <tr>
+            <th>Rating</th>
+            <td>
+               <ngb-rating [(rate)]="rating" (hover)="onHover()" (leave)="onLeave()" (rateChange)="onRatingChanged()" [starTemplate]="books" [readonly]="book.totalReadings === 0" [max]="5"></ngb-rating>
+            </td>
          </tr>
          <tr>
             <th>Insert Date</th>
@@ -41,4 +74,52 @@
          </tr>
       </tbody>
    </table>
+   
+   <div class="card text-white bg-dark">
+      <div class="card-header">Add a Note</div>
+      <div class="card-body">
+         <form #notesForm="ngForm" (ngSubmit)="onSubmitNotes()">
+            <div class="form-group mb-3">
+               <div class="form-floating">
+                  <textarea class="form-control bg-dark text-white" placeholder="Your notes here ..." id="floatingTextarea" [(ngModel)]="notes"
+                     style="height: 125px" name="notes" required maxlength="255" [ngStyle]="{'border-color' : textAreaColor, 'border' : '2px solid' }"></textarea>
+                  <span class="pull-right label label-default text-white" id="count_message">{{ notes.length }}/255</span>
+                  <label for="floatingTextarea">Your notes here ...</label>
+               </div>
+            </div>
+            <div class="d-flex gap-2">
+               <button type="submit" [disabled]="!notesForm.valid" class="btn btn-sm btn-primary">
+                  Update Note
+               </button>
+               <button class="btn btn-sm btn-danger" (click)="onClearNote()">
+                  Clear Note
+               </button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+
+<ng-template #books let-fill="fill">
+   <i class="fa fa-regular fa-book" [class.full]="fill === 100"></i>
+</ng-template>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            Are you sure you want to delete this book?
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" (click)="onDelete()" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+         </div>
+      </div>
+   </div>
 </div>

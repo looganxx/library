@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { LoginService } from 'src/app/services/login.service';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,9 @@ export class LoginComponent implements OnInit{
 
   onLogin(){
     if(this.selectedUser === '-1'){
-      alert("You must choose a user");
+
+      $('#userAlert').fadeIn();
+      setTimeout( () => $('#userAlert').fadeOut(), 4000);
       return;
     }
     this.loginService.login(this.users.find(

@@ -29,26 +29,11 @@ export class UserLibraryService {
 
   getBooksOwnedByUser() : Observable<SimpleBook[]>{
 
-    const currentLoggedUser: User = this.loginService.getLoggedUser();
-/*
-    if (currentLoggedUser.emailId != "" &&
-        this._userLogged === currentLoggedUser && 
-        this._cachedData){
-      console.log('cached');
-      return of(this._cachedData);
-    }
-    else
-    {
-    */
-      console.log('not cached');
-      this._userLogged = currentLoggedUser;
-      return this.http.get<SimpleBook[]>(
-        BOOKS_API_BASE_URL + 'ownedUser/', 
-        { params: new HttpParams().set('userEmail', currentLoggedUser.emailId) })
-        .pipe(
-          tap((res) => { this._cachedData = res; })
-        )
-    // }
+    this._userLogged = this.loginService.getLoggedUser();
+
+    return this.http.get<SimpleBook[]>(
+      BOOKS_API_BASE_URL + 'ownedUser/', 
+      { params: new HttpParams().set('userEmail', this._userLogged.emailId) })
   }
 
   getBookDetails(id: number) :  Observable<Book> {
@@ -56,7 +41,17 @@ export class UserLibraryService {
   }
 
 
-  addBook(book: Book){
+  addBook(book: Book) :  Observable<Book> {
     return this.http.post<Book>(BOOKS_API_BASE_URL, book)
+  }
+
+  deleteBook(id: number) : Observable<Book> {
+    return this.http.post<Book>(BOOKS_API_BASE_URL + "delete/" + id, {
+      responseType: "json"
+    });
+  }
+
+  updateBook(book: Book) : Observable<Book>  {
+    return this.http.post<Book>(BOOKS_API_BASE_URL + "update", book);
   }
 }

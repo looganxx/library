@@ -11,15 +11,22 @@ import { UserLibraryService } from 'src/app/services/user-library.service';
 })
 export class BookDetailComponent {
 
+  hoverRating: boolean = false;
+  textAreaColor: String = "white";
+  rating: number;
+  notes: String = "";
+
   book: Book = {
     id: -1,
     title: "",
     author: "",
     isbnCode: "",
     insertDate: "",
-    deleteDate: null,
+    deleteDate: "",
     plot: "",
     totalReadings: 0,
+    notes: "",
+    rating: 0,
     user_email: ""
   };
 
@@ -37,14 +44,194 @@ export class BookDetailComponent {
     // Get id from url
     this.book.id = this.activatedRoute.snapshot.params['id'];
 
-    this.libraryService.getBookDetails(this.book.id).subscribe(
-      book => {
+    this.libraryService.getBookDetails(this.book.id).subscribe({
+      next: (book) => {
         this.book = book;
+        this.rating = this.book.rating;
+        this.notes = this.book.notes ? this.book.notes : '';
+      },
+      error: (error) => {
+        console.log(error);
+        this.router.navigate(['**']);
       }
-    );
+    });
+  }
 
-    if(this.book.id === -1) {
-      this.router.navigate(['**']);
+  onDelete(){
+    // Already confirmed
+    this.libraryService.deleteBook(this.book.id).subscribe({
+      next: (book) => {
+        this.book = book;
+      },
+      error: (e) => {
+        console.error(e.message);
+      }
+    });
+  }
+
+  onIncrease(){
+    let bookToUpdate: Book = {
+      id: -1,
+      title: "",
+      author: "",
+      isbnCode: "",
+      insertDate: "",
+      deleteDate: "",
+      plot: "",
+      totalReadings: 0,
+      notes: "",
+      rating: 0,
+      user_email: ""
+    };
+
+    Object.assign(bookToUpdate, this.book);
+    bookToUpdate.totalReadings++;
+
+    this.libraryService.updateBook(bookToUpdate).subscribe({
+      next: (book) => {
+        this.book = book;
+      },
+      error: (e) => {
+        console.error(e.message);
+      }
+    });
+  }
+
+  onDecrease(){
+    let bookToUpdate: Book = {
+      id: -1,
+      title: "",
+      author: "",
+      isbnCode: "",
+      insertDate: "",
+      deleteDate: "",
+      plot: "",
+      totalReadings: 0,
+      notes: "",
+      rating: 0,
+      user_email: ""
+    };
+
+    Object.assign(bookToUpdate, this.book);
+    bookToUpdate.totalReadings--;
+
+    this.libraryService.updateBook(bookToUpdate).subscribe({
+      next: (book) => {
+        this.book = book;
+      },
+      error: (e) => {
+        console.error(e.message);
+      }
+    });
+  }
+
+  onModify(){
+    this.router.navigate(['/modify/' + this.book.id]);
+  }
+
+  onSubmitNotes(){
+
+    let bookToUpdate: Book = {
+      id: -1,
+      title: "",
+      author: "",
+      isbnCode: "",
+      insertDate: "",
+      deleteDate: "",
+      plot: "",
+      totalReadings: 0,
+      notes: "",
+      rating: 0,
+      user_email: ""
+    };
+
+    Object.assign(bookToUpdate, this.book);
+    bookToUpdate.notes = this.notes;
+
+    this.libraryService.updateBook(bookToUpdate).subscribe({
+      next: (book) => {
+        this.book = book;
+        this.textAreaColor = "#0d6efd";
+
+        setTimeout(() => {
+          this.textAreaColor = 'white';
+        }, 1000);
+      },
+      error: (e) => {
+        console.error(e.message);
+      }
+    });
+  }
+
+  onClearNote(){
+
+    let bookToUpdate: Book = {
+      id: -1,
+      title: "",
+      author: "",
+      isbnCode: "",
+      insertDate: "",
+      deleteDate: "",
+      plot: "",
+      totalReadings: 0,
+      notes: "",
+      rating: 0,
+      user_email: ""
+    };
+
+    Object.assign(bookToUpdate, this.book);
+    this.notes = "";
+    bookToUpdate.notes = this.notes;
+
+    this.libraryService.updateBook(bookToUpdate).subscribe({
+      next: (book) => {
+        this.book = book;
+      },
+      error: (e) => {
+        console.error(e.message);
+      }
+    });
+  }
+
+  onHover(){
+    this.hoverRating = true;
+    
+  }
+
+  onLeave(){
+    this.hoverRating = false;
+  }
+
+  onRatingChanged(){
+    let bookToUpdate: Book = {
+      id: -1,
+      title: "",
+      author: "",
+      isbnCode: "",
+      insertDate: "",
+      deleteDate: "",
+      plot: "",
+      totalReadings: 0,
+      notes: "",
+      rating: 0,
+      user_email: ""
+    };
+
+    Object.assign(bookToUpdate, this.book);
+    bookToUpdate.rating = this.rating;
+
+    if(this.hoverRating === true){
+      this.libraryService.updateBook(bookToUpdate).subscribe({
+        next: (book) =>
+        {
+          this.book = book;
+        },
+        error: (e) =>
+        {
+          console.error(e.message);
+        }
+      });
     }
+    
   }
 }

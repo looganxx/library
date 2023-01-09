@@ -40,4 +40,14 @@ public class BookController {
     public Book addBook(@RequestBody Book book){
         return bookService.addBook(book);
     }
+
+    @PostMapping("/delete/{id}")
+    public Book deleteBook(@PathVariable("id") Long id){
+        return bookService.deleteBook(id);
+    }
+
+    @PostMapping("/update")
+    public Book updateBook(@RequestBody Book book){
+        return bookService.updateBook(book);
+    }
 }

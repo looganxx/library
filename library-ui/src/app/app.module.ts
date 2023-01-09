@@ -12,6 +12,8 @@ import { UserLibraryComponent } from './components/user-library/user-library.com
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BookDetailComponent } from './components/book-detail/book-detail.component';
 import { AddBookComponent } from './components/add-book/add-book.component';
+import { ModifyBookComponent } from './components/modify-book/modify-book.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -24,14 +26,16 @@ import { AddBookComponent } from './components/add-book/add-book.component';
     UserLibraryComponent,
     NotFoundComponent,
     BookDetailComponent,
-    AddBookComponent
+    AddBookComponent,
+    ModifyBookComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

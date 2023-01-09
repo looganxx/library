@@ -14,4 +14,8 @@ public interface BookService {
     Book getBook(Long id) throws NoSuchElementException;
 
     Book addBook(Book book);
+
+    Book deleteBook(Long id);
+
+    Book updateBook(Book book);
 }

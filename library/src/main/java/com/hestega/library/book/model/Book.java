@@ -1,6 +1,8 @@
 package com.hestega.library.book.model;
 
 import com.hestega.library.user.model.User;
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,7 @@ public class Book {
     private Date deleteDate;
     private String plot;
     private Integer totalReadings;
+    private String notes;
+    private Integer rating;
     private String user_email;
 }

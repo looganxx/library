@@ -5,12 +5,15 @@ import com.hestega.library.book.model.Book;
 import com.hestega.library.book.model.SimpleBook;
 import com.hestega.library.book.repository.BookRepository;
 import com.hestega.library.user.entity.UserEntity;
-import com.hestega.library.user.model.User;
 import com.hestega.library.user.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -75,6 +78,8 @@ public class BookServiceImpl implements BookService {
                 bookEntity.getDeleteDate(),
                 bookEntity.getPlot(),
                 bookEntity.getTotalReadings(),
+                bookEntity.getNotes(),
+                bookEntity.getRating(),
                 bookEntity.getUser() == null ? null : bookEntity.getUser().getEmail());
     }
 
@@ -83,5 +88,56 @@ public class BookServiceImpl implements BookService {
                 bookEntity.getId(),
                 bookEntity.getTitle(),
                 bookEntity.getAuthor());
+    }
+
+    @Override
+    public Book deleteBook(Long id) {
+        BookEntity bookEntity;
+        if (bookRepository.findById(id).isPresent()) {
+            bookEntity = bookRepository.findById(id).get();
+        } else {
+            throw new NoSuchElementException();
+        }
+
+        bookEntity.setDeleteDate(new Date(Calendar.getInstance().getTime().getTime()));
+
+        bookRepository.save(bookEntity);
+
+        return new Book(
+                bookEntity.getId(),
+                bookEntity.getTitle(),
+                bookEntity.getAuthor(),
+                bookEntity.getIsbnCode(),
+                bookEntity.getInsertDate(),
+                bookEntity.getDeleteDate(),
+                bookEntity.getPlot(),
+                bookEntity.getTotalReadings(),
+                bookEntity.getNotes(),
+                bookEntity.getRating(),
+                bookEntity.getUser() == null ? null : bookEntity.getUser().getEmail());
+    }
+
+    @Override
+    public Book updateBook(Book book) {
+        BookEntity bookEntity;
+        if (bookRepository.findById(book.getId()).isPresent()) {
+            bookEntity = bookRepository.findById(book.getId()).get();
+        } else {
+            throw new NoSuchElementException();
+        }
+
+        bookEntity.setTitle(book.getTitle());
+        bookEntity.setAuthor(book.getAuthor());
+        bookEntity.setIsbnCode(book.getIsbnCode());
+        bookEntity.setInsertDate(book.getInsertDate());
+        bookEntity.setDeleteDate(book.getDeleteDate());
+        bookEntity.setPlot(book.getPlot());
+        bookEntity.setTotalReadings(book.getTotalReadings());
+        bookEntity.setNotes(book.getNotes());
+        bookEntity.setRating(book.getRating());
+
+        bookRepository.save(bookEntity);
+
+        return book;
     }
 }

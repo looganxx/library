@@ -27,6 +27,9 @@ public class BookEntity {
     private String plot;
     @Column(nullable = false)
     private Integer totalReadings;
+    private String notes;
+    @Column(columnDefinition = "integer default 0")
+    private Integer rating;
 
     @ManyToOne(
             cascade = CascadeType.ALL

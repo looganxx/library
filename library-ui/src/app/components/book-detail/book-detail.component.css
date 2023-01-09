@@ -2,3 +2,21 @@
    border-radius: 0.30rem;
    overflow: hidden;
 }
+/* 
+.modal-content {
+   background: #424445;
+} */
+
+.full {
+   color: #ffa600;
+}
+
+textarea {
+   resize: none;
+}
+
+#count_message {
+   background-color: smoke;
+   margin-top: -23px;
+   margin-right: 5px;
+}

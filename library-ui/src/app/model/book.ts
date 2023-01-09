@@ -7,5 +7,7 @@ export interface Book {
    deleteDate: String | null,
    plot: string,
    totalReadings: number,
+   notes: String;
+   rating: number;
    user_email: string
 }
