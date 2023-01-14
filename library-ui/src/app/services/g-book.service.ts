@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { API_KEY } from '../security/apykey';
 
 const GBOOK_HTTP = "https://www.googleapis.com/books/v1/volumes"
-const API_KEY = "AIzaSyCmgZ-CwgB9xKQIDLdsxn_SU2DoFkgix8A";
+
+
 
 @Injectable({
   providedIn: 'root'
